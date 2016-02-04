@@ -18,7 +18,9 @@ class AuthController extends Controller
     {
 
         $req = $request->getParsedBody();
-        $this->validator->rule('required', ['username', 'email', 'password']);
+        $val = new Validator($req);
+        $val->rule('required', ['username', 'email', 'password']);
+        // $this->validator->rule('required', ['username', 'email', 'password']);
         $this->validator->labels([
             'username'  => 'username',
             'password'  => 'password',
@@ -42,8 +44,7 @@ class AuthController extends Controller
                     $this->flash->addMessage('error', $error[0]);
                     // echo $error[0];
                 }
-                // exit();
-                return $this->view->render($response, 'admin/auth/signup.twig');
+                
         }
         // $this->flash->addMessage('success', 'Tes Flashing Message');
         return $this->view->render($response, 'admin/home.twig');
