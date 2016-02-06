@@ -22,3 +22,6 @@ $app->post('/admin/signup', 'Pamit\Controllers\AuthController:postSignup')
 
 $app->get('/admin/signin', 'Pamit\Controllers\AuthController:getSignin')
     ->setName('signin');
+
+$app->post('/admin/signin', 'Pamit\Controllers\AuthController:doSignin')
+    ->setName('do.signin');

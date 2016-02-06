@@ -26,13 +26,16 @@ class AuthController extends Controller
             'password'  => 'password',
             'email'     => 'email'
             ]);
-        $new_password = hash('sha1',$req['password'] . $req['username']);
+
+        $new_password = password_hash($req['password'], PASSWORD_DEFAULT);
+
         if ($this->validator->validate()) {
             $query = 'INSERT INTO users (username, password, email) VALUES (:username, :password, :email)';
 
             $result = $this->db->prepare($query);
 
             $result->bindParam(':username', $req['username']);
+            // $result->bindParam(':password', $new_password);
             $result->bindParam(':password', $new_password);
             $result->bindParam(':email', $req['email']);
             // $result->binParam(':first_name', $first_name);
@@ -44,21 +47,24 @@ class AuthController extends Controller
                     $this->flash->addMessage('error', $error[0]);
                     // echo $error[0];
                 }
-                
+
         }
         // $this->flash->addMessage('success', 'Tes Flashing Message');
-        return $this->view->render($response, 'admin/home.twig');
+        // $this->view->redirect('signup');
+        return $this->view->redirect($response, 'admin/auth/signup.twig');
     }
 
     public function getSignin(Request $request, Response $response, $args)
     {
-        $req = $request->getParsedBody();
 
         return $this->view->render($response, 'admin/auth/signin.twig');
     }
 
-    public function postSignin(Request $request, Response $response, $args)
+    public function doSignin(Request $request, Response $response, $args)
     {
 
+        $req = $request->getParsedBody();
+
+        // $query = ('SELECT  FROM users WHERE email = :email, password = :password');
     }
 }
